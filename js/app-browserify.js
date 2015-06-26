@@ -19,20 +19,86 @@ var qs = (selector) => document.querySelector(selector)
 
 const stories = new PostStoryList()
 
-// class HomeScreenView extends Component{
-// 	constructor(props){
-// 		super(props)
-// 	}
+class NewPostView extends Component ({
+constructor(props){
+		super(props)
+		this.rerender = () => {
+			this.props.data.save()
+			this.forceUpdate()
+		}
+	}
 
-// 	render(){
-// 		return(<div>
-// 			<ul>
+	render() {
+		return ( <div> 
+				<label for 'title'> Write your Title. </label>
+				<input type='text' name='title'ref='newtitle' placeholder='New Story'/>
+				<label for 'src'> Share a picture with your story. </label>
+				<input type ='text' name='src' ref='imgsrc' placeholder='Image Url'/>
+				<textarea> Write Story Here. </textarea>
+				<label for 'keywords'> Enter 3 story tags. </label>
+				<input type ='text' name='keywords' ref='keywords' placehloder='Tags' required />
+				<input type = 'checkbox' name='isPrivate' ref='isPrivate'checked={model.get('isPrivate')===true}>
+				 <span> Make Story Private </span>
+				</input>
+				<button> Publish </button>
+			</div>)
+	}
 
-// 			</ul>
-// 		</div>
-// 		)
-// 	}
-// }
+})
+
+class PostView extends Component({
+	constructor(props){
+		super(props)
+		this.rerender = () => {
+			this.props.data.save()
+			this.forceUpdate()
+		}
+	}
+	componentDidMount() {
+		this.props.data.on('change', this.rerender)
+	}
+	componentDidUnMount() {
+		this.props.data.off('change', this.rerender)
+	}
+
+	render(){
+		var model = this.props.data
+		var timestamp = model.get('timestamp')
+		var 
+		return(
+			<div>
+				<li className="post">
+				<h3 contenteditable ref='title'> {model.get('title')} </h3>
+				<h2 ref='author'> {model.get('username')} </h2>
+				<img ref='src' src={model.get('src')}/>
+				<p contenteditable ref='content'>{model.get('content')}</p>
+				<p ref='tags'> {model.get('tags')} </p>
+				<p ref='timestamp'> {model.get('timestamp')} </p>
+				<button ref='recommend'> Recommend </button>
+				</li>
+			</div>
+		)
+	}
+})
+
+class PostListView extends Component({
+	constructor(props){
+		super(props)
+		this.rerender = () => this.forceUpdate()
+	}
+
+	render(){
+		return(<div className='homescreen'> 
+
+			<ul> 
+			{this.props.data.map((model)=> <PostView data={model}/>)}
+			</ul>
+
+		</div>)
+	}
+})
+
+
 class LoginView extends Component{
 	constructor(props){
 		super(props)
@@ -116,31 +182,7 @@ class LoginView extends Component{
 // }
 
 
-class PostView extends Component({
-	constructor(props){
-		super(props)
-	}
-	render(){
-		return(
-			<div>
-				<h3>{this.props.data.title}</h3>
-				<p>{this.props.data.content}</p>
-			</div>
-		)
-	}
-})
 
-class PostListView extends Component({
-	constructor(props){
-		super(props)
-	}
-
-	render(){
-		return(
-
-		)
-	}
-})
 
 var ParseRouter = Parse.Router.extend({
 	routes: {
