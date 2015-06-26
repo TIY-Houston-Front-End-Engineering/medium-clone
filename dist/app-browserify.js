@@ -1,1 +1,1 @@
-
+console.error("SyntaxError: /Users/paulsaad/Github Projects/medium-clone/js/app-browserify.js: Unexpected token (49:15) while parsing file: /Users/paulsaad/Github Projects/medium-clone/js/app-browserify.js");
