@@ -214,6 +214,7 @@ var ParseRouter = Parse.Router.extend({
 			window.location.hash = '#login'
 			return
 		}
+		React.render(<NewPostView />, qs('.container'))
 	}
 
 	initialize: () => {
