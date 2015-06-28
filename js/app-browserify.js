@@ -19,51 +19,14 @@ var qs = (selector) => document.querySelector(selector)
 
 const stories = new PostStoryList()
 
-// class NewPostView extends Component ({
-// constructor(props){
-// 		super(props)
-// 		this.rerender = () => {
-// 			this.props.data.save()
-// 			this.forceUpdate()
-// 		}
-// 	}
-// 	render() {
-// 		return ( <div> 
-// 				<label for 'title'> Write your Title. </label>
-// 				<input type='text' name='title'ref='newtitle' placeholder='New Story'/>
-// 				<label for 'src'> Share a picture with your story. </label>
-// 				<input type ='text' name='src' ref='imgsrc' placeholder='Image Url'/>
-// 				<textarea> Write Story Here. </textarea>
-// 				<label for 'keywords'> Enter 3 story tags. </label>
-// 				<input type ='text' name='keywords' ref='keywords' placehloder='Tags' required />
-// 				<input type = 'checkbox' name='isPrivate' ref='isPrivate'checked={model.get('isPrivate')===true}>
-// 				 <span> Make Story Private </span>
-// 				</input>
-// 				<button> Publish </button>
-// 			</div>)
-// 	}
-// })
-
-// class PostView extends Component({
+// class PostView extends Component{
 // 	constructor(props){
 // 		super(props)
-// 		this.rerender = () => {
-// 			this.props.storedPosts.save()
-// 			this.forceUpdate()
-// 		}
-// 	}
-
-// 	componentDidMount() {
-// 		this.props.data.on('change', this.rerender)
-// 	}
-// 	componentDidUnMount() {
-// 		this.props.data.off('change', this.rerender)
 // 	}
 
 // 	render(){
-// 		var model = this.props.data
-// 		var timestamp = model.get('timestamp')
-// 		var 
+// 		var model = this.props.storedPost
+// 		// var timestamp = model.get('timestamp')
 // 		return(
 // 			<div>
 // 				<li className="post">
@@ -78,34 +41,152 @@ const stories = new PostStoryList()
 // 			</div>
 // 		)
 // 	}
-// })
-
-
-// class PostListView extends Component{
-// 	constructor(props){
-// 		super(props)
-// 		this.rerender = () => {
-// 			this.props.storedPosts.save()
-// 			this.forceUpdate()
-// 		}
-// 	}
-
-// 	componentDidMount() {
-// 		this.props.data.on('change', this.rerender)
-// 	}
-
-// 	componentDidUnMount() {
-// 		this.props.data.off('change', this.rerender)
-// 	}
-
-// 	render(){
-// 		return(<div className='homescreen'> 
-// 			<ul> 
-// 				{this.props.data.map((model)=> <PostView data={model} />)}
-// 			</ul>
-// 		</div>)
-// 	}
 // }
+
+class svgIcon extends Component{
+	constructor(props){
+		super(props)
+	}
+	render(){
+		return(
+			<span><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M65.768,26.221v6.836h-5.18l6.107,36.226c0,0-13.58,11.996-14.393,26.85   c0.211,0.379,0.33,0.813,0.33,1.275c0,1.291-0.928,2.363-2.153,2.59V69.512c1.43-0.23,2.522-1.469,2.522-2.963   c0-1.658-1.344-3.002-3.001-3.002c-1.658,0-3.003,1.344-3.003,3.002c0,1.498,1.099,2.74,2.535,2.965V100   c-1.231-0.221-2.166-1.297-2.166-2.592c0-0.463,0.12-0.896,0.33-1.275c-0.812-14.854-14.393-26.85-14.393-26.85l6.108-36.226h-5.18   v-6.836h2.412L33.782,0h21.361l-0.596,24.202h4.213L60.146,0h6.072l-2.863,26.221H65.768z M59.094,26.469h-6.156v6.213h6.156   V26.469z M54.641,35.157l2.635,43.284c0,0,1.207-1.83,2.617-3.672c1.314-1.717,2.84-3.453,2.84-3.453l-3.865-36.166L54.641,35.157z   "></path></g></svg></span>
+		)
+	}
+}
+
+class Toolbar extends Component{
+	constructor(props){
+		super(props)
+	}
+	render(){
+		return(<div className="toolbar">
+			<div>
+				<svgIcon />
+				<p>Milieu</p>
+			</div>
+			<div><input type="text" ref="searchMilieu" placeholder="Search for a story." /></div>
+			<button> Avatar </button>
+		</div>)
+	}
+}
+
+class NewStory extends Component {
+	constructor(props){
+		super(props)
+	}
+
+	render(){
+		if(!this.props.title){
+			return (<div></div>)
+		} else{
+			return(<div>
+				<h3 contentEditable>{this.props.title}</h3>
+				<label for = 'src'> Share a picture with your story. </label>
+				<input type = 'url' name='src' ref='imgsrc' placeholder='Image Url'/>
+				<textarea placeholder="Share your story."></textarea>
+				<label for = 'keywords'> Enter 3 story tags. </label>
+				<input type ='text' name='keywords' ref='keywords' placehloder='Tags' required />
+				<input type = 'checkbox' name='isPrivate' ref='isPrivate'>
+					<span> Make Story Private </span>
+				</input>
+				<button> Publish </button>
+			</div>
+			)
+		}
+	}
+}
+
+class ProfileView extends Component {
+	constructor(props){
+		super(props)
+		this.state = {
+			title: null
+		}
+		this.rerender = () => this.forceUpdate()
+	}
+
+    componentDidMount(){
+        this.props.storedPosts.on('update sync', this.rerender)
+    }
+
+    componentDidUnmount(){
+        this.props.storedPosts.off('update sync', this.rerender)
+    }
+
+	_newStory(e){
+		e.preventDefault()
+		var title = React.findDOMNode(this.refs.newTitle)
+		this.setState({title: title.value})
+		var model = new PostStory({title: this.state.title})
+		this.props.storedPosts.create(model)
+		title.value = ""
+		console.log(this.props.storedPosts)
+	}
+
+	render() {
+
+		return (<div>
+					<Toolbar />
+					<form> 
+						<label for = 'title'> Write your Title. </label>
+						<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
+						<button onClick={(e) => this._newStory(e)}> + </button> 
+					</form>
+					<NewStory title={this.state.title} />
+			</div>)
+	}
+}
+
+class PostView extends Component{
+	constructor(props){
+		super(props)
+	}
+
+	render(){
+		var model = this.props.storedPost
+		// var timestamp = model.get('timestamp')
+		return(
+			<div>
+				<li className="post">
+				<h3 contenteditable ref='title'> {model.get('title')} </h3>
+				<h2 ref='author'> {model.get('username')} </h2>
+				<img ref='src' src={model.get('src')}/>
+				<p contenteditable ref='content'>{model.get('content')}</p>
+				<p ref='tags'> {model.get('tags')} </p>
+				<p ref='timestamp'> {model.get('timestamp')} </p>
+				<button ref='recommend'> Recommend </button>
+				</li>
+			</div>
+		)
+	}
+}
+
+
+class PostListView extends Component{
+	constructor(props){
+		super(props)
+		this.rerender = () => {
+			this.props.storedPosts.save()
+			this.forceUpdate()
+		}
+	}
+
+	componentDidMount() {
+		this.props.storedPosts.on('change', this.rerender)
+	}
+
+	componentDidUnMount() {
+		this.props.storedPosts.off('change', this.rerender)
+	}
+
+	render(){
+		return(<div className='homescreen'> 
+			<ul> 
+				{this.props.storedPosts.map((model)=> <PostView storedPost={model} />)}
+			</ul>
+		</div>)
+	}
+}
 
 
 class LoginView extends Component{
@@ -134,7 +215,10 @@ class LoginView extends Component{
 		})
 
 		var signup = user.signUp()
-		signup.then(()=> window.location.hash = '#home')
+		signup.then(()=> {
+			alert("Welcome to Milieu")
+			window.location.hash = '#home'
+		})
 		signup.fail(() => {
 			alert('Sign Up failed')
 		})
@@ -142,13 +226,16 @@ class LoginView extends Component{
 
 	_signIn(e) {
 		e.preventDefault()
-		var login = Parse.User.logIn(this.username, this.password, {
+		var username = React.findDOMNode(this.refs.username).value,
+			password = React.findDOMNode(this.refs.password).value
+
+		var login = Parse.User.logIn(username, password, {
 			success: (login) => {
-				window.location.hash = '#home'
+				window.location.hash = '#/profile'
 			},
 			error: (login) => {
 				this.setState({error: this.state.error + 1})
-				alert('happy friday')
+				alert('try that again buddy')
 			}
 		})
 	}
@@ -176,23 +263,6 @@ class LoginView extends Component{
 	}
 }
 
-// class Toolbar extends Component{
-// 	constructor(props){
-// 		super(props)
-// 	}
-
-// 	render(){
-// 		return(
-// 		<div>
-// 			<h1>Milieu</h1>
-// 		</div>
-// 	)
-
-// 	}
-// }
-
-
-
 
 var ParseRouter = Parse.Router.extend({
 	routes: {
@@ -204,7 +274,7 @@ var ParseRouter = Parse.Router.extend({
 
 	login: () => {
 		if(Parse.User.current()){
-			window.location.hash = '/home'
+			window.location.hash = '/profile'
 			return
 		}
 		React.render(<LoginView />, qs('.container'))
@@ -216,7 +286,7 @@ var ParseRouter = Parse.Router.extend({
 			return
 		}
 		stories.fetch()
-		React.render(<PostListView stories={storedPosts} />, qs('.container'))
+		React.render(<PostListView storedPosts={stories} />, qs('.container'))
 	},
 
 	story: () => {
@@ -232,7 +302,8 @@ var ParseRouter = Parse.Router.extend({
 			window.location.hash = '/login'
 			return
 		}
-		React.render(<ProfileView />, qs('.container'))
+		stories.fetch()
+		React.render(<ProfileView storedPosts={stories}/>, qs('.container'))
 	},
 
 	initialize: () => {
