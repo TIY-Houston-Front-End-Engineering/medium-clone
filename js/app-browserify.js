@@ -5,7 +5,6 @@ require("es5-shim")
 // es6 polyfills, powered by babel
 require("babel/register")
 
-91823 981yhas oinas di
 import {Promise} from 'es6-promise'
 import Backbone from 'backbone'
 import $ from 'jquery'
@@ -44,7 +43,7 @@ class Toolbar extends Component{
 			</div>
 			<div><input type="text" ref="searchMilieu" placeholder="Search for a story." /></div>
 			<button> Avatar </button>
-			<button onClick={Parse.User.logOut()}>Logout</button>
+			<button onClick={() => Parse.User.logOut()}>Logout</button>
 		</div>)
 	}
 }
@@ -52,9 +51,17 @@ class Toolbar extends Component{
 class NewStory extends Component {
 	constructor(props){
 		super(props)
+		this.rerender = () => {
+            this.props.newBlogPostModel.save()
+            this.forceUpdate()
+        }
 	}
-
-	
+	componentDidMount(){
+        this.props.newBlogPostModel.on('change', this.rerender)
+    }
+    componentDidUnmount(){
+        this.props.newBlogPostModel.off('change', this.rerender)
+    }
 
 	
 	_publish(e){
@@ -67,7 +74,9 @@ class NewStory extends Component {
 
 	}
 
+
 	render(){
+		
 		if(!this.props.title){
 			return (<div></div>)
 		} else{
@@ -78,9 +87,8 @@ class NewStory extends Component {
 				<textarea ref='storyContent' placeholder="Share your story."></textarea>
 				<label for = 'keywords'> Enter 3 story tags. </label>
 				<input type ='text' name='keywords' ref='keywords' placehloder='Tags' required />
-				<input type = 'checkbox' name='isPrivate' ref='isPrivate'>
-					<span> Make Story Private </span>
-				</input>
+				<label for='isPrivate'> Make Story Private </label>
+				<input type = 'checkbox' name='isPrivate' ref='isPrivate'/>
 				<button onClick={(e) => this._publish(e)}> Publish </button>
 			</div>
 			)
@@ -113,10 +121,10 @@ class ProfileView extends Component {
 		this.setState({title: title.value})
 		var model = new PostStory({title: this.state.title})
 
-		this.setState({'workingModel' : model})
+		this.setState({workingModel : model})
 		this.props.storedPosts.create(model)
 		title.value = ""
-		console.log(this.props.storedPosts)
+		
 	}
 
 	render() { 
