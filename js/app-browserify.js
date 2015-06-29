@@ -1,4 +1,3 @@
-
 "use strict";
 
 // es5 polyfills, powered by es5-shim
@@ -6,6 +5,7 @@ require("es5-shim")
 // es6 polyfills, powered by babel
 require("babel/register")
 
+91823 981yhas oinas di
 import {Promise} from 'es6-promise'
 import Backbone from 'backbone'
 import $ from 'jquery'
@@ -53,8 +53,17 @@ class NewStory extends Component {
 	constructor(props){
 		super(props)
 	}
+
 	
-	_publish(){
+
+	
+	_publish(e){
+		var imgSrc = React.findDOMNode(this.refs.imgsrc).innerHTML
+		this.props.newBlogPostModel.set('src', imgSrc)
+		var content = React.findDOMNode(this.refs.storyContent).innerText
+        this.props.newBlogPostModel.set('content', content)
+        var keywords = React.findDOMNode(this.refs.keywords).value
+       	this.props.newBlogPostModel.set('tags', keywords)
 
 	}
 
@@ -66,13 +75,13 @@ class NewStory extends Component {
 				<h3 contentEditable>{this.props.title}</h3>
 				<label for = 'src'> Share a picture with your story. </label>
 				<input type = 'url' name='src' ref='imgsrc' placeholder='Image Url'/>
-				<textarea placeholder="Share your story."></textarea>
+				<textarea ref='storyContent' placeholder="Share your story."></textarea>
 				<label for = 'keywords'> Enter 3 story tags. </label>
 				<input type ='text' name='keywords' ref='keywords' placehloder='Tags' required />
 				<input type = 'checkbox' name='isPrivate' ref='isPrivate'>
 					<span> Make Story Private </span>
 				</input>
-				<button onClick={() => this._publish()}> Publish </button>
+				<button onClick={(e) => this._publish(e)}> Publish </button>
 			</div>
 			)
 		}
@@ -83,7 +92,8 @@ class ProfileView extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			title: null
+			title: null,
+			workingModel: null
 		}
 		this.rerender = () => this.forceUpdate()
 	}
@@ -91,6 +101,7 @@ class ProfileView extends Component {
     componentDidMount(){
         this.props.storedPosts.on('update sync', this.rerender)
     }
+
 
     componentDidUnmount(){
         this.props.storedPosts.off('update sync', this.rerender)
@@ -102,27 +113,24 @@ class ProfileView extends Component {
 		this.setState({title: title.value})
 		var model = new PostStory({title: this.state.title})
 
-		this.workingModel = model
+		this.setState({'workingModel' : model})
 		this.props.storedPosts.create(model)
 		title.value = ""
 		console.log(this.props.storedPosts)
 	}
 
-	render() {
-
+	render() { 
 		return (<div>
-					<Toolbar />
-					<form> 
-						<label for = 'title'> Write your Title. </label>
-						<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
-						<button onClick={(e) => this._newStory(e)}> + </button> 
-					</form>
-
-					<NewStory newBlogPostModel={workingModel} title={this.state.title} />
-
-					<hr />
-					<h3>Your previous stories.</h3>
-			</div>)
+			<Toolbar />
+			<form> 
+				<label for = 'title'> Write your Title. </label>
+				<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
+				<button onClick={(e) => this._newStory(e)}> + </button> 
+			</form>
+			<NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} />
+			<hr />
+			<h3>Your previous stories.</h3>
+		</div>)
 	}
 }
 
