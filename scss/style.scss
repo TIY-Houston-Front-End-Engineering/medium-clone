@@ -108,7 +108,7 @@ img {
     width: 40%;
     min-width: 200px;
     position: relative;
-    background-color: 
+    background-color: #ccc;
     &::after{
         content:"";
         display: block;
@@ -119,6 +119,7 @@ img {
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        width:100%;
     }
     span{
         position: absolute;

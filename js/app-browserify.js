@@ -77,6 +77,9 @@ class NewStory extends Component {
 	constructor(props){
 		super(props)
 	}
+	-publish(e) {
+
+	}
 
 	render(){
 		if(!this.props.title){
@@ -121,6 +124,7 @@ class ProfileView extends Component {
 		var title = React.findDOMNode(this.refs.newTitle)
 		this.setState({title: title.value})
 		var model = new PostStory({title: this.state.title})
+		this.recentModel = model
 		this.props.storedPosts.create(model)
 		title.value = ""
 		console.log(this.props.storedPosts)
@@ -135,7 +139,7 @@ class ProfileView extends Component {
 						<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
 						<button onClick={(e) => this._newStory(e)}> + </button> 
 					</form>
-					<NewStory title={this.state.title} />
+					<NewStory blogPostModel={model} title={this.state.title} />
 					<hr />
 					<h3>Your previous stories.</h3>
 			</div>)
@@ -165,7 +169,6 @@ class PostView extends Component{
 		)
 	}
 }
-
 
 class PostListView extends Component{
 	constructor(props){
@@ -248,7 +251,7 @@ class LoginView extends Component{
 		return(<div>
 			<div className="title">
 				<h1>Mi・lieu</h1>
-				<span>Def: a social setting in which something occurs or develops</span>
+				<p>Def: a social setting in which something occurs or develops</p>
 			</div>
 			<h3>Login Here</h3>
 			<form>
