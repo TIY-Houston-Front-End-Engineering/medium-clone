@@ -19,7 +19,6 @@ var qs = (selector) => document.querySelector(selector)
 
 const stories = new PostStoryList()
 
-
 // class PostView extends Component{
 // 	constructor(props){
 // 		super(props)
