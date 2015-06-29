@@ -191,6 +191,57 @@ class ProfileView extends Component {
 	}
 }
 
+class PostView extends Component{
+	constructor(props){
+		super(props)
+	}
+
+	render(){
+		var model = this.props.storedPost
+		// var timestamp = model.get('timestamp')
+		return(
+			<div>
+				<li className="post">
+				<h3 contenteditable ref='title'> {model.get('title')} </h3>
+				<h2 ref='author'> {model.get('username')} </h2>
+				<img ref='src' src={model.get('src')}/>
+				<p contenteditable ref='content'>{model.get('content')}</p>
+				<p ref='tags'> {model.get('tags')} </p>
+				<p ref='timestamp'> {model.get('timestamp')} </p>
+				<button ref='recommend'> Recommend </button>
+				</li>
+			</div>
+		)
+	}
+}
+
+
+class PostListView extends Component{
+	constructor(props){
+		super(props)
+		this.rerender = () => {
+			this.props.storedPosts.save()
+			this.forceUpdate()
+		}
+	}
+
+	componentDidMount() {
+		this.props.storedPosts.on('change', this.rerender)
+	}
+
+	componentDidUnMount() {
+		this.props.storedPosts.off('change', this.rerender)
+	}
+
+	render(){
+		return(<div className='homescreen'> 
+			<ul> 
+				{this.props.storedPosts.map((model)=> <PostView storedPost={model} />)}
+			</ul>
+		</div>)
+	}
+}
+
 class LoginView extends Component{
 	constructor(props){
 		super(props)
