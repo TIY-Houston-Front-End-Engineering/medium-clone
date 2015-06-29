@@ -104,22 +104,27 @@ img {
     background-color: #efefef;
  }
 
- .title{
-    width: 40%;
+ .titleLogin{
+    width: 50%;
     min-width: 200px;
     position: relative;
-    background-color: #ccc;
+
+    background-image: url(https://www.artsupplies.co.uk/img_item/vidalon_paper.jpg);
+    border-radius: 50%;
+
     &::after{
         content:"";
         display: block;
         padding-top:100%;
     }
     h1{
+        width: 100%;
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        width:100%;
+
+        text-align: center;
     }
     span{
         position: absolute;
