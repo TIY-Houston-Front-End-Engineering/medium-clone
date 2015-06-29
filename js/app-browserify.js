@@ -20,30 +20,6 @@ var qs = (selector) => document.querySelector(selector)
 
 const stories = new PostStoryList()
 
-// class PostView extends Component{
-// 	constructor(props){
-// 		super(props)
-// 	}
-
-// 	render(){
-// 		var model = this.props.storedPost
-// 		// var timestamp = model.get('timestamp')
-// 		return(
-// 			<div>
-// 				<li className="post">
-// 				<h3 contenteditable ref='title'> {model.get('title')} </h3>
-// 				<h2 ref='author'> {model.get('username')} </h2>
-// 				<img ref='src' src={model.get('src')}/>
-// 				<p contenteditable ref='content'>{model.get('content')}</p>
-// 				<p ref='tags'> {model.get('tags')} </p>
-// 				<p ref='timestamp'> {model.get('timestamp')} </p>
-// 				<button ref='recommend'> Recommend </button>
-// 				</li>
-// 			</div>
-// 		)
-// 	}
-// }
-
 class svgIcon extends Component{
 	constructor(props){
 		super(props)
@@ -78,6 +54,10 @@ class NewStory extends Component {
 		super(props)
 	}
 
+	_publish(){
+
+	}
+
 	render(){
 		if(!this.props.title){
 			return (<div></div>)
@@ -92,7 +72,7 @@ class NewStory extends Component {
 				<input type = 'checkbox' name='isPrivate' ref='isPrivate'>
 					<span> Make Story Private </span>
 				</input>
-				<button> Publish </button>
+				<button onClick={() => this._publish()}> Publish </button>
 			</div>
 			)
 		}
@@ -121,6 +101,7 @@ class ProfileView extends Component {
 		var title = React.findDOMNode(this.refs.newTitle)
 		this.setState({title: title.value})
 		var model = new PostStory({title: this.state.title})
+		this.workingModel = model
 		this.props.storedPosts.create(model)
 		title.value = ""
 		console.log(this.props.storedPosts)
@@ -135,7 +116,7 @@ class ProfileView extends Component {
 						<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
 						<button onClick={(e) => this._newStory(e)}> + </button> 
 					</form>
-					<NewStory title={this.state.title} />
+					<NewStory newBlogPostModel={workingModel} title={this.state.title} />
 					<hr />
 					<h3>Your previous stories.</h3>
 			</div>)
@@ -165,7 +146,6 @@ class PostView extends Component{
 		)
 	}
 }
-
 
 class PostListView extends Component{
 	constructor(props){
@@ -221,7 +201,7 @@ class LoginView extends Component{
 		var signup = user.signUp()
 		signup.then(()=> {
 			alert("Welcome to Milieu")
-			window.location.hash = '#home'
+			window.location.hash = '/profile'
 		})
 		signup.fail(() => {
 			alert('Sign Up failed')
@@ -235,7 +215,7 @@ class LoginView extends Component{
 
 		var login = Parse.User.logIn(username, password, {
 			success: (login) => {
-				window.location.hash = '#/profile'
+				window.location.hash = '/profile'
 			},
 			error: (login) => {
 				this.setState({error: this.state.error + 1})
@@ -246,7 +226,7 @@ class LoginView extends Component{
 
 	render(){
 		return(<div>
-			<div className="title">
+			<div className="titleLogin">
 				<h1>Mi・lieu</h1>
 				<span>Def: a social setting in which something occurs or develops</span>
 			</div>
@@ -264,7 +244,7 @@ class LoginView extends Component{
 				Email: <input type="email" ref="email" />
 				Username: <input type="text" ref="newUsername" />
 				Password: <input type="password" ref="newPassword" />
-				<button onClick={(e) => this._registerUser(e)} >Join the Charge</button>
+				<button onClick={(e) => this._registerUser(e)}>Join the Charge</button>
 			</form>
 		</div>
 		)
