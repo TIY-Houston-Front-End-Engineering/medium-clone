@@ -1,4 +1,3 @@
-
 "use strict";
 
 // es5 polyfills, powered by es5-shim
@@ -20,13 +19,13 @@ var qs = (selector) => document.querySelector(selector)
 
 const stories = new PostStoryList()
 
-class svgIcon extends Component{
+class SvgIcon extends Component{
 	constructor(props){
 		super(props)
 	}
 	render(){
 		return(
-			<span><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M65.768,26.221v6.836h-5.18l6.107,36.226c0,0-13.58,11.996-14.393,26.85   c0.211,0.379,0.33,0.813,0.33,1.275c0,1.291-0.928,2.363-2.153,2.59V69.512c1.43-0.23,2.522-1.469,2.522-2.963   c0-1.658-1.344-3.002-3.001-3.002c-1.658,0-3.003,1.344-3.003,3.002c0,1.498,1.099,2.74,2.535,2.965V100   c-1.231-0.221-2.166-1.297-2.166-2.592c0-0.463,0.12-0.896,0.33-1.275c-0.812-14.854-14.393-26.85-14.393-26.85l6.108-36.226h-5.18   v-6.836h2.412L33.782,0h21.361l-0.596,24.202h4.213L60.146,0h6.072l-2.863,26.221H65.768z M59.094,26.469h-6.156v6.213h6.156   V26.469z M54.641,35.157l2.635,43.284c0,0,1.207-1.83,2.617-3.672c1.314-1.717,2.84-3.453,2.84-3.453l-3.865-36.166L54.641,35.157z   "></path></g></svg></span>
+			<div className="icon"><svg version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M65.768,26.221v6.836h-5.18l6.107,36.226c0,0-13.58,11.996-14.393,26.85   c0.211,0.379,0.33,0.813,0.33,1.275c0,1.291-0.928,2.363-2.153,2.59V69.512c1.43-0.23,2.522-1.469,2.522-2.963   c0-1.658-1.344-3.002-3.001-3.002c-1.658,0-3.003,1.344-3.003,3.002c0,1.498,1.099,2.74,2.535,2.965V100   c-1.231-0.221-2.166-1.297-2.166-2.592c0-0.463,0.12-0.896,0.33-1.275c-0.812-14.854-14.393-26.85-14.393-26.85l6.108-36.226h-5.18   v-6.836h2.412L33.782,0h21.361l-0.596,24.202h4.213L60.146,0h6.072l-2.863,26.221H65.768z M59.094,26.469h-6.156v6.213h6.156   V26.469z M54.641,35.157l2.635,43.284c0,0,1.207-1.83,2.617-3.672c1.314-1.717,2.84-3.453,2.84-3.453l-3.865-36.166L54.641,35.157z"></path></g></svg></div>
 		)
 	}
 }
@@ -226,9 +225,18 @@ class LoginView extends Component{
 
 	render(){
 		return(<div>
-			<div className="titleLogin">
-				<h1>Mi・lieu</h1>
-				<span>Def: a social setting in which something occurs or develops</span>
+			<div className="rotationContainer">
+				<div className="title">
+					<div>
+						<h1>Mi・lieu</h1>
+						<span>noun</span>
+					</div>
+					<span>a social setting in which something occurs or develops.</span>
+					<SvgIcon />
+				</div>
+				<div className="loginOrSignup">
+					<p>hello i am the back of you</p>
+				</div>
 			</div>
 			<h3>Login Here</h3>
 			<form>
