@@ -18,8 +18,8 @@ function startServer() {
     // adds a new rule to proxy a localUrl -> webUrl
     // i.e. proxify ('/my/server/google', 'http://google.com/')
     function proxify(localUrl, webUrl){
-        app.get(localUrl, (req, res) => {
-            var remote = webUrl.match(/:(\w+)/ig).reduce((a, t) => {
+        app.get (localUrl, function(req, res) {
+            var remote = webUrl.match(/:(\w+)/ig).reduce(function(a, t)  {
                 return a.replace(new RegExp(t, 'ig'), req.params[t.substr(1)])
             }, webUrl)
             req.pipe( request(remote + querify(req.query)) ).pipe(res)
@@ -49,7 +49,7 @@ function startServer() {
     app.use(override("X-HTTP-Method-Override"))
     // enable CSRF protection
     app.use(csrf())
-    app.use((req, res, next) => {
+    app.use (function(req, res, next) {
         res.locals.csrftoken = req.csrfToken() // send the token to the browser app
         next()
     })
