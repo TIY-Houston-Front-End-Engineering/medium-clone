@@ -19,6 +19,7 @@ var qs = (selector) => document.querySelector(selector)
 
 const stories = new PostStoryList()
 
+
 // class PostView extends Component{
 // 	constructor(props){
 // 		super(props)
@@ -268,7 +269,6 @@ class LoginView extends Component{
 		)
 	}
 }
-
 
 var ParseRouter = Parse.Router.extend({
 	routes: {
