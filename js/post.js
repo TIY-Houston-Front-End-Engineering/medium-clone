@@ -14,7 +14,7 @@ export const PostStory = Parse.Object.extend({
 		content: null,
 		src: null,
 		tags: null,
-		username: null,
+		author: null,
 		isPrivate: false,
 		published: false
 	}
