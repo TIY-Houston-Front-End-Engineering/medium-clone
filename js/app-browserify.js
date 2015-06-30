@@ -122,8 +122,6 @@ class ProfileView extends Component {
 		this.setState({workingModel : model})
 		this.props.storedPosts.create(model)
 		title.value = ''
-	
-		
 	}
 
 	render() { 
