@@ -41,9 +41,12 @@ class Toolbar extends Component{
 				<svgIcon />
 				<p>Milieu</p>
 			</div>
-			<div><input type="text" ref="searchMilieu" placeholder="Search for a story." /></div>
+			
+			<form>
+				<input type="text" ref="searchMilieu" placeholder="Search for a story." />
 			<button> Avatar </button>
 			<button onClick={() => Parse.User.logOut()}>Logout</button>
+			</form>
 		</div>)
 	}
 }
@@ -56,17 +59,17 @@ class NewStory extends Component {
             this.forceUpdate()
         }
 	}
-	componentDidMount(){
-        this.props.newBlogPostModel.on('change', this.rerender)
-    }
-    componentDidUnmount(){
-        this.props.newBlogPostModel.off('change', this.rerender)
-    }
+	// componentDidMount(){
+ //        this.props.newBlogPostModel.on('change', this.rerender)
+ //    }
+ //    componentDidUnmount(){
+ //        this.props.newBlogPostModel.off('change', this.rerender)
+ //    }
 
 	
 	_publish(e){
-		var imgSrc = React.findDOMNode(this.refs.imgsrc).innerHTML
-		this.props.newBlogPostModel.set('src', imgSrc)
+		// var imgSrc = React.findDOMNode(this.refs.imgsrc).innerHTML
+		// this.props.newBlogPostModel.set('src', imgSrc)
 		var content = React.findDOMNode(this.refs.storyContent).innerText
         this.props.newBlogPostModel.set('content', content)
         var keywords = React.findDOMNode(this.refs.keywords).value
@@ -76,17 +79,17 @@ class NewStory extends Component {
 
 
 	render(){
-		
+		var model = this.props.newBlogPostModel
 		if(!this.props.title){
 			return (<div></div>)
 		} else{
-			return(<div>
+			return (<div>
 				<h3 contentEditable>{this.props.title}</h3>
 				<label for = 'src'> Share a picture with your story. </label>
-				<input type = 'url' name='src' ref='imgsrc' placeholder='Image Url'/>
+				<input type = 'url' name='src' ref='imgsrc' placeholder='Image Url'/> 
 				<textarea ref='storyContent' placeholder="Share your story."></textarea>
 				<label for = 'keywords'> Enter 3 story tags. </label>
-				<input type ='text' name='keywords' ref='keywords' placehloder='Tags' required />
+				<input type ='text' name='keywords' ref='keywords' placehloder='Tags' />
 				<label for='isPrivate'> Make Story Private </label>
 				<input type = 'checkbox' name='isPrivate' ref='isPrivate'/>
 				<button onClick={(e) => this._publish(e)}> Publish </button>
@@ -120,7 +123,6 @@ class ProfileView extends Component {
 		var title = React.findDOMNode(this.refs.newTitle)
 		this.setState({title: title.value})
 		var model = new PostStory({title: this.state.title})
-
 		this.setState({workingModel : model})
 		this.props.storedPosts.create(model)
 		title.value = ""
@@ -135,7 +137,9 @@ class ProfileView extends Component {
 				<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
 				<button onClick={(e) => this._newStory(e)}> + </button> 
 			</form>
-			<NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} />
+			<ul className="savedStory">
+			{<NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} />}
+			</ul>
 			<hr />
 			<h3>Your previous stories.</h3>
 		</div>)
