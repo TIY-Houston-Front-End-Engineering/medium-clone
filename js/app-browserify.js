@@ -57,8 +57,7 @@ class NewStory extends Component {
 	_publish(e){
 		var title = React.findDOMNode(this.refs.title).innerText
 		this.props.newBlogPostModel.set('title', title)
-		var username= getUsername(Parse.User.current())
-		this.props.newBlogPostModel.set('username', username)
+		this.props.newBlogPostModel.set('username', Parse.User.current())
 		var imgSrc = React.findDOMNode(this.refs.imgsrc).innerHTML
 		this.props.newBlogPostModel.set('src', imgSrc)
 		console.log('publishing !!!!	')
@@ -72,9 +71,6 @@ class NewStory extends Component {
 
 	render(){
 		var publishedModels = this.props.newBlogPostModel
-		// console.log('this.props.newBlogPostMOdel inside < NewsStory/ >')
-		// console.log(this.props.newBlogPostModel)
-
 
 		if(!this.props.title){
 			return (<div></div>)
@@ -124,8 +120,6 @@ class ProfileView extends Component {
 	}
 
 	render() { 
-
-		console.log('this.state.workingModel inside < ProfileView/ >')
 		console.log(this.state.workingModel)
 		var publishedModels = this.props.storedPosts
 
@@ -159,7 +153,7 @@ class PostView extends Component{
 			<div>
 				<li className="post">
 				<h3 contenteditable ref='title'> {model.get('title')} </h3>
-				<h2 ref='author'> {model.get('username')} </h2>
+				<h2 ref='author'> {`${model.get('username').toJSON().firstname} ${model.get('username').toJSON().lastname}`} </h2>
 				<img ref='src' src={model.get('src')}/>
 				<p contenteditable ref='content'>{model.get('content')}</p>
 				<p ref='tags'> {model.get('tags')} </p>
