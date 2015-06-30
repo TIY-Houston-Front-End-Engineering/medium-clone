@@ -47,44 +47,43 @@ class NewStory extends Component {
 	constructor(props){
 		super(props)
 		this.rerender = () => {
-            this.props.newBlogPostModel.save()
             this.forceUpdate()
         }
 	}
 	componentDidMount(){
-		console.log(this.props.newBlogPostModel)
-        this.props.newBlogPostModel.on('change', (e) => { this.rerender() } )
+		var model = this.props.newBlogPostModel
+        model && model.on('change', (e) => { this.rerender() } )
     }
- //    componentDidUnmount(){
- //        this.props.newBlogPostModel.off('change', this.rerender)
- //    }
-
-	
 	_publish(e){
-		var username= Parse.User.current().username
+		var title = React.findDOMNode(this.refs.title).innerText
+		this.props.newBlogPostModel.set('title', title)
+		var username= getUsername(Parse.User.current())
 		this.props.newBlogPostModel.set('username', username)
 		var imgSrc = React.findDOMNode(this.refs.imgsrc).innerHTML
 		this.props.newBlogPostModel.set('src', imgSrc)
 		console.log('publishing !!!!	')
-		var content = React.findDOMNode(this.refs.storyContent).innerText
+		var content = React.findDOMNode(this.refs.storyContent).value
         this.props.newBlogPostModel.set('content', content)
         var keywords = React.findDOMNode(this.refs.keywords).value
        	this.props.newBlogPostModel.set('tags', keywords)
+
+       	this.props.newBlogPostModel.save()
 	}
 
 	render(){
 		var publishedModels = this.props.newBlogPostModel
-		console.log('this.props.newBlogPostMOdel inside < NewsStory/ >')
-		console.log(this.props.newBlogPostModel)
+		// console.log('this.props.newBlogPostMOdel inside < NewsStory/ >')
+		// console.log(this.props.newBlogPostModel)
+
 
 		if(!this.props.title){
 			return (<div></div>)
 		} else{
 			return (<div>
-				<h3 contentEditable>{this.props.title}</h3>
+				<h3  ref="title" contentEditable>{this.props.title}</h3>
 				<label for = 'src'> Share a picture with your story. </label>
 				<input type = 'url' name='src' ref='imgsrc' placeholder='Image Url'/> 
-				<textarea ref='storyContent' placeholder="Share your story."></textarea>
+				<input type="text" ref='storyContent' placeholder="Share your story."/>
 				<label for = 'keywords'> Enter 3 story tags. </label>
 				<input type ='text' name='keywords' ref='keywords' placehloder='Tags' />
 				<label for='isPrivate'> Make Story Private </label>
