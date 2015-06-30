@@ -96,38 +96,274 @@ img {
  * YOUR CODE HERE
  */
 
+ $brown: rgb(42, 35, 21);
+ $light-brown: rgb(172, 147, 98);  
+
  * {
     font-family: 'Playfair Display', serif;
  }
 
- .toolbar{
+.toolbar{
     background-color: #efefef;
- }
+}
 
- .titleLogin{
-    width: 50%;
-    min-width: 200px;
+.rotationContainer{
+    width:60%;
+    margin: auto;
     position: relative;
 
-    background-image: url(https://www.artsupplies.co.uk/img_item/vidalon_paper.jpg);
-    border-radius: 50%;
-
-    &::after{
-        content:"";
-        display: block;
-        padding-top:100%;
-    }
-    h1{
+    >div{
+        backface-visibility: hidden;
         width: 100%;
+        background: url(../images/backgroundPaper.jpg) center center no-repeat;
+        background-size: cover;
+        border-radius: 50%;
+        margin: auto;
+        border: 10px solid $brown;
+        min-width: 300px;
+        max-width: 570px;
+        display: block;
+        transition: all 1s ease;
+        &::after{
+            content:"";
+            display: block;
+            padding-top:100%;
+        }
+    }
+}
+
+.frontOfCoin{
+    position: relative;
+    &.frontHidden{
+        transform: rotateY(180deg);
+    }
+    > div{
+        margin: auto;
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
-
-        text-align: center;
+        transform: translate(-50%, -100%);
+        width:100%;
+        padding-left: 15%;
+        h1{
+            width:100%;
+            font-size: 2rem;
+            margin-bottom: .5rem;
+        }
+        span{
+            font-style: italic;
+            font-size: .8rem;
+        }
     }
-    span{
+    .def{
         position: absolute;
-
+        font-size: 0.7rem;
+        top:50%;
+        left:40%;
+        width:50%;
     }
- }
+    .icon{
+        position: absolute;
+        top:75%;
+        left:50%;
+        transform: translateX(-50%);
+        cursor: pointer;
+        * {
+            transition: all .5s ease;
+        }
+
+        &:hover{
+            svg{
+                transform: rotateZ(-90deg);
+                path{
+                    fill: $light-brown;
+                }
+            }
+            > span{
+                transform: translate(7%, -50%);
+                color: $light-brown;
+            }
+        }
+
+        svg{
+            width: 1.8rem;
+            path{
+                fill: $brown;
+            }
+        }
+        > span{
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            width: 10ch;
+            font-weight: bold;
+            font-size: .6rem;
+        }
+    }
+}
+
+.backOfCoin{
+    position: absolute;
+    top:0;
+    left:0;
+    transform: rotateY(180deg);
+    &.backVisible{
+        transform: rotateY(360deg);
+    }
+    > div{
+        width: 100%;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        h4{
+            text-align: center;
+            color: $brown;
+            font-size: 1.2rem;
+            margin-bottom: .5rem;
+        }
+    }
+    .login{
+        top:13%;
+    }
+    .signup{
+        top:45%;
+    }
+    form{
+        width: 100%;
+        div{
+            text-align: center;
+            input{
+                appearance: none;
+                box-shadow: none;
+                width: 37%;
+                margin: 0 .2rem .1rem .2rem;
+                border: none;
+                border-radius: 7px;
+                border-bottom: solid 2px #c9c9c9;
+                transition: border 0.3s;
+                font-size: .6rem;
+                padding: .1rem;
+                &:focus {
+                    outline: none;
+                     box-shadow: inset 0 0 8px  rgba(172, 147, 98,0.2),
+                                       0 0 16px rgba(172, 147, 98,0.2);
+                }
+            }
+        }
+        button{
+            position: absolute;
+            top:100%;
+            left: 50%;
+            border: 2px solid $brown;
+            border-radius: 3px;
+            font-size: .5rem;
+            transform: translate(-50%);
+            background-color: rgba(0, 0, 0, 0);
+            transition: background-color .25s linear;
+            &:hover{
+                background-color: $light-brown; 
+            }
+        }
+    }
+    .back{
+        position: absolute;
+        top:2%;
+        left:50%;
+        transform: translateX(-50%);
+        cursor: pointer;
+        * {
+            transition: all .5s ease;
+        }
+
+        &:hover{
+            svg{
+                transform: rotateZ(-90deg);
+                path{
+                    fill: $light-brown;
+                }
+            }
+            > span{
+                transform: translate(7%, -50%);
+                color: $light-brown;
+            }
+        }
+
+        svg{
+            width: 1.5rem;
+            path{
+                fill: $brown;
+            }
+        }
+        > span{
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            width: 10ch;
+            font-weight: bold;
+            font-size: .5rem;
+        }
+    }
+}
+
+@media screen and (min-width: 780px){
+    .frontOfCoin{
+        > div{
+            h1{
+                font-size: 3.3rem;
+            }
+            span{
+                font-size: 1rem;
+            }
+        }
+        .icon{
+            top: 70%;
+            svg{
+                width: 3.2rem;
+            }
+            span{
+                font-size: 1rem;
+                width: 20ch;
+            }
+        }
+        span{
+            font-size:.8rem;
+        }
+    }
+
+    .backOfCoin{
+        .login{
+            top: 20%;
+        }
+        .signup{
+            top: 50%;
+        }
+        > div{
+            h4{
+                margin-bottom: 1.2375rem;
+                font-size: 1.33rem;
+            }
+            form{
+                input{
+                    font-size: .8rem;
+                    padding: .3rem;
+                    margin: 0 .5rem .5rem .5rem;
+                    width: 40%;
+                }
+                button{
+                    font-size: .8rem;
+                }
+            }
+        }
+        .back{
+            top: 5%;
+            svg{
+                width: 2.5rem;
+            }
+            > span{
+                font-size: .8rem;
+            }
+        }
+    }
+}
