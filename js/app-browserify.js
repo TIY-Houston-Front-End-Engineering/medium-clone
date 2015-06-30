@@ -73,9 +73,9 @@ class NewStory extends Component {
 		var publishedModels = this.props.newBlogPostModel
 
 		if(!this.props.title){
-			return (<div></div>)
+			return (<li>hi</li>)
 		} else{
-			return (<div>
+			return (<li>
 				<h3  ref="title" contentEditable>{this.props.title}</h3>
 				<label for = 'src'> Share a picture with your story. </label>
 				<input type = 'url' name='src' ref='imgsrc' placeholder='Image Url'/> 
@@ -85,7 +85,7 @@ class NewStory extends Component {
 				<label for='isPrivate'> Make Story Private </label>
 				<input type = 'checkbox' name='isPrivate' ref='isPrivate'/>
 				<button onClick={(e) => this._publish(e)}> Publish </button>
-			</div>
+			</li>
 			)
 		}
 	}
@@ -121,8 +121,9 @@ class ProfileView extends Component {
 
 	render() { 
 		console.log(this.state.workingModel)
-		var publishedModels = this.props.storedPosts
-
+		var postedStories = this.props.storedPosts
+		console.log(postedStories)
+		console.log(postedStories.map((model) => model.toJSON()))
 		return (<div>
 			<Toolbar />
 			<form> 
@@ -130,13 +131,12 @@ class ProfileView extends Component {
 				<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
 				<button onClick={(e) => this._newStory(e)}> + </button> 
 			</form>
-				<ul className="savedStory">
-					<li> <NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} /> </li>
-				</ul>
+				<NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} />
 			<hr />
 			<h3>Your previous stories.</h3>
-			{this.props.storedPosts.map((model)=> <NewStory newBlogPostModel={publishedModels}/>)}
-				
+			<ul>
+				{postedStories.map((model) => <PostView postedStories={model} />)}
+			</ul>	
 		</div>)
 	}
 }
@@ -147,11 +147,12 @@ class PostView extends Component{
 	}
 
 	render(){
-		var model = this.props.storedPost
+		var model = this.props.postedStories
+		console.log(model)
+		console.log('here in postview')
 		// var timestamp = model.get('timestamp')
 		return(
-			<div>
-				<li className="post">
+			<li className="post">
 				<h3 contenteditable ref='title'> {model.get('title')} </h3>
 				<h2 ref='author'> {`${model.get('username').toJSON().firstname} ${model.get('username').toJSON().lastname}`} </h2>
 				<img ref='src' src={model.get('src')}/>
@@ -159,37 +160,36 @@ class PostView extends Component{
 				<p ref='tags'> {model.get('tags')} </p>
 				<p ref='timestamp'> {model.get('timestamp')} </p>
 				<button ref='recommend'> Recommend </button>
-				</li>
-			</div>
+			</li>
 		)
 	}
 }
 
-class PostListView extends Component{
-	constructor(props){
-		super(props)
-		this.rerender = () => {
-			this.props.storedPosts.save()
-			this.forceUpdate()
-		}
-	}
+// class PostListView extends Component{
+// 	constructor(props){
+// 		super(props)
+// 		this.rerender = () => {
+// 			this.props.storedPosts.save()
+// 			this.forceUpdate()
+// 		}
+// 	}
 
-	componentDidMount() {
-		this.props.storedPosts.on('change', this.rerender)
-	}
+// 	componentDidMount() {
+// 		this.props.storedPosts.on('change', this.rerender)
+// 	}
 
-	componentDidUnMount() {
-		this.props.storedPosts.off('change', this.rerender)
-	}
+// 	componentDidUnMount() {
+// 		this.props.storedPosts.off('change', this.rerender)
+// 	}
 
-	render(){
-		return(<div className='homescreen'> 
-			<ul> 
-				{this.props.storedPosts.map((model)=> <PostView storedPost={model} />)}
-			</ul>
-		</div>)
-	}
-}
+// 	render(){
+// 		return(<div className='homescreen'> 
+// 			<ul> 
+// 				{this.props.storedPosts.map((model)=> <PostView storedPost={model} />)}
+// 			</ul>
+// 		</div>)
+// 	}
+// }
 
 var ParseRouter = Parse.Router.extend({
 	routes: {
