@@ -59,17 +59,21 @@ class NewStory extends Component {
             this.forceUpdate()
         }
 	}
-	// componentDidMount(){
- //        this.props.newBlogPostModel.on('change', this.rerender)
- //    }
+	componentDidMount(){
+		console.log(this.props.newBlogPostModel)
+        this.props.newBlogPostModel.on('change', (e) => { this.rerender() } )
+    }
  //    componentDidUnmount(){
  //        this.props.newBlogPostModel.off('change', this.rerender)
  //    }
 
 	
 	_publish(e){
-		// var imgSrc = React.findDOMNode(this.refs.imgsrc).innerHTML
-		// this.props.newBlogPostModel.set('src', imgSrc)
+		var username= Parse.User.current().username
+		this.props.newBlogPostModel.set('username', username)
+		var imgSrc = React.findDOMNode(this.refs.imgsrc).innerHTML
+		this.props.newBlogPostModel.set('src', imgSrc)
+		console.log('publishing !!!!	')
 		var content = React.findDOMNode(this.refs.storyContent).innerText
         this.props.newBlogPostModel.set('content', content)
         var keywords = React.findDOMNode(this.refs.keywords).value
@@ -80,6 +84,9 @@ class NewStory extends Component {
 
 	render(){
 		var model = this.props.newBlogPostModel
+		console.log('this.props.newBlogPostMOdel inside < NewsStory/ >')
+		console.log(this.props.newBlogPostModel)
+
 		if(!this.props.title){
 			return (<div></div>)
 		} else{
@@ -125,11 +132,14 @@ class ProfileView extends Component {
 		var model = new PostStory({title: this.state.title})
 		this.setState({workingModel : model})
 		this.props.storedPosts.create(model)
-		title.value = ""
+		title.value = ''
+	
 		
 	}
 
 	render() { 
+		console.log('this.state.workingModel inside < ProfileView/ >')
+		console.log(this.state.workingModel)
 		return (<div>
 			<Toolbar />
 			<form> 
@@ -138,7 +148,7 @@ class ProfileView extends Component {
 				<button onClick={(e) => this._newStory(e)}> + </button> 
 			</form>
 			<ul className="savedStory">
-			{<NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} />}
+			<NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} />
 			</ul>
 			<hr />
 			<h3>Your previous stories.</h3>
