@@ -134,6 +134,9 @@ img {
 
 .frontOfCoin{
     position: relative;
+    &.frontHidden{
+        transform: rotateY(180deg);
+    }
     > div{
         margin: auto;
         position: absolute;
@@ -205,6 +208,9 @@ img {
     top:0;
     left:0;
     transform: rotateY(180deg);
+    &.backVisible{
+        transform: rotateY(360deg);
+    }
     > div{
         width: 100%;
         position: absolute;
@@ -258,6 +264,45 @@ img {
             &:hover{
                 background-color: $light-brown; 
             }
+        }
+    }
+    .back{
+        position: absolute;
+        top:5%;
+        left:50%;
+        transform: translateX(-50%);
+        cursor: pointer;
+        * {
+            transition: all .5s ease;
+        }
+
+        &:hover{
+            svg{
+                transform: rotateZ(-90deg);
+                path{
+                    fill: $light-brown;
+                }
+            }
+            > span{
+                transform: translate(7%, -50%);
+                color: $light-brown;
+            }
+        }
+
+        svg{
+            width: 2.5rem;
+            path{
+                fill: $brown;
+            }
+        }
+        > span{
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            width: 10ch;
+            font-weight: bold;
+            font-size: .8rem;
         }
     }
 }
