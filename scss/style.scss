@@ -268,7 +268,7 @@ img {
     }
     .back{
         position: absolute;
-        top:5%;
+        top:2%;
         left:50%;
         transform: translateX(-50%);
         cursor: pointer;
@@ -290,7 +290,7 @@ img {
         }
 
         svg{
-            width: 2.5rem;
+            width: 1.5rem;
             path{
                 fill: $brown;
             }
@@ -302,7 +302,7 @@ img {
             transform: translateY(-50%);
             width: 10ch;
             font-weight: bold;
-            font-size: .8rem;
+            font-size: .5rem;
         }
     }
 }
@@ -354,6 +354,15 @@ img {
                 button{
                     font-size: .8rem;
                 }
+            }
+        }
+        .back{
+            top: 5%;
+            svg{
+                width: 2.5rem;
+            }
+            > span{
+                font-size: .8rem;
             }
         }
     }
