@@ -102,11 +102,15 @@ img {
     font-family: 'Playfair Display', serif;
  }
 
- .toolbar{
+.toolbar{
     background-color: #efefef;
- }
+}
 
-.title{
+.rotationContainer{
+    position: relative;
+}
+
+.frontOfCoin{
     width: 50%;
     position: relative;
     background: url(../images/backgroundPaper.jpg) center center no-repeat;
@@ -115,7 +119,6 @@ img {
     margin: auto;
     border: 10px solid $brown;
     min-width: 300px;
-
     &::after{
         content:"";
         display: block;
@@ -152,12 +155,13 @@ img {
         left:50%;
         svg{
             width: 3rem;
+            fill: $brown;
         }
     }
 }
 
 @media screen and (min-width: 720px){
-    .title{
+    .frontOfCoin{
         > div{
             h1{
                 font-size: 3.3rem;
@@ -171,5 +175,3 @@ img {
         }
     }
 }
-
-
