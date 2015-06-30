@@ -26,6 +26,17 @@ class Toolbar extends Component{
 	constructor(props){
 		super(props)
 	}
+// _blockSubmit(e) {
+// 	e.preventDefault()
+
+// }
+
+_logOut (e) {
+	e.preventDefault()
+	Parse.User.logOut()
+	window.location.hash = '#login'
+}
+	
 
 	render(){
 		return(<div className="toolbar">
@@ -34,10 +45,10 @@ class Toolbar extends Component{
 				<p>Milieu</p>
 			</div>
 			
-			<form>
+			<form >
 				<input type="text" ref="searchMilieu" placeholder="Search for a story." />
 			<button> Avatar </button>
-			<button onClick={() => Parse.User.logOut()}>Logout</button>
+			<button onClick={(e) => this._logOut(e) }> Logout </button>
 			</form>
 		</div>)
 	}
@@ -55,10 +66,10 @@ class NewStory extends Component {
     }
 
 	_publish(e){
-		console.log(Parse.User.current())
+		var currentUser = Parse.User.current().toJSON()
 		var title = React.findDOMNode(this.refs.title).innerText
 		this.props.newBlogPostModel.set('title', title)
-		this.props.newBlogPostModel.set('username', Parse.User.current().toJSON().username)
+		this.props.newBlogPostModel.set('author', `${currentUser.firstname} ${currentUser.lastname}`)
 		var imgSrc = React.findDOMNode(this.refs.imgsrc).innerHTML
 		this.props.newBlogPostModel.set('src', imgSrc)
 		console.log('publishing !!!!	')
@@ -130,6 +141,7 @@ class ProfileView extends Component {
 		console.log(postedStories)
 		console.log(postedStories.map((model) => model.toJSON()))
 		return (<div>
+			<Toolbar />
 			<form onSubmit={(e) => this._newStory(e)}> 
 				<label for = 'title'> Write your Title. </label>
 				<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
@@ -155,17 +167,19 @@ class PostView extends Component{
 		var model = this.props.existingStories
 		console.log(model)
 		console.log('here in postview')
+		var user = model.get('author')
+		console.log(user)
 		// var timestamp = model.get('timestamp')
 		return (
 			<li className="post">
 				<h3 contenteditable ref='title'> {model.get('title')} </h3>
+				<h6 ref = 'user'> {model.get('author')} </h6>
 				<img ref='src' src={model.get('src')}/>
 				<p contenteditable ref='content'>{model.get('content')}</p>
 				<p ref='tags'> {model.get('tags')} </p>
 				<p ref='timestamp'> {model.get('timestamp')} </p>
 				<button ref='recommend'> Recommend </button>
-
-				</li>
+			</li>
 		)
 	}
 }
