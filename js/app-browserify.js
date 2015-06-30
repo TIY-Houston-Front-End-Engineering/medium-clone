@@ -46,15 +46,16 @@ class Toolbar extends Component{
 class NewStory extends Component {
 	constructor(props){
 		super(props)
-		this.rerender = () => {
-            this.forceUpdate()
-        }
+		this.rerender = () => this.forceUpdate()
 	}
+
 	componentDidMount(){
 		var model = this.props.newBlogPostModel
         model && model.on('change', (e) => { this.rerender() } )
     }
+
 	_publish(e){
+		console.log(Parse.User.current())
 		var title = React.findDOMNode(this.refs.title).innerText
 		this.props.newBlogPostModel.set('title', title)
 		this.props.newBlogPostModel.set('username', Parse.User.current().toJSON().username)
@@ -70,10 +71,9 @@ class NewStory extends Component {
 	}
 
 	render(){
-		var publishedModels = this.props.newBlogPostModel
-
-		if(!this.props.title){
-			return (<div></div>)
+		console.log(this.props.newBlogPostModel)
+		if(!this.props.newBlogPostModel){
+			return (<span></span>)
 		} else{
 			return (<div>
 				<h3  ref="title" contentEditable>{this.props.title}</h3>
@@ -114,33 +114,34 @@ class ProfileView extends Component {
 		var title = React.findDOMNode(this.refs.newTitle)
 		this.setState({title: title.value})
 
-		var model = new PostStory({title: this.state.title})
-		this.setState({workingModel : model})
-		this.props.storedPosts.create(model)
-		title.value = ''
+		if (this.state.title){
+			var model = new PostStory({title: this.state.title})
+			this.setState({workingModel : model})
+			this.props.storedPosts.create(model)
+			title.value = ''
+		}
+
 	}
 
 	render() { 
 		console.log(this.state.workingModel)
-		var publishedModels = this.props.storedPosts
-		console.log(publishedModels)
 
+		var postedStories = this.props.storedPosts
+		console.log(postedStories)
+		console.log(postedStories.map((model) => model.toJSON()))
 		return (<div>
-			<Toolbar />
-			<form> 
+			<form onSubmit={(e) => this._newStory(e)}> 
 				<label for = 'title'> Write your Title. </label>
 				<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
 				<button onClick={(e) => this._newStory(e)}> + </button> 
 			</form>
-			
-					 <NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} /> 
-				
+				<NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} />
 			<hr />
 			<h3>Your previous stories.</h3>
 			<ul>
-				
-			</ul>
-				
+				{postedStories.map((model) => <PostView existingStories={model} />)}
+			</ul>	
+
 		</div>)
 	}
 }
@@ -151,23 +152,20 @@ class PostView extends Component{
 	}
 
 	render(){
-		var model = this.props.storedPost
-		var username = Parse.User.current().toJSON().firstname
-		var existingStories = this.props.storedPosts
-		console.log(username)
+		var model = this.props.existingStories
+		console.log(model)
+		console.log('here in postview')
 		// var timestamp = model.get('timestamp')
-		return(
-			
-				<li className="post">
+		return (
+			<li className="post">
 				<h3 contenteditable ref='title'> {model.get('title')} </h3>
-				<h2 ref='author'> {username} </h2>
 				<img ref='src' src={model.get('src')}/>
 				<p contenteditable ref='content'>{model.get('content')}</p>
 				<p ref='tags'> {model.get('tags')} </p>
 				<p ref='timestamp'> {model.get('timestamp')} </p>
 				<button ref='recommend'> Recommend </button>
+
 				</li>
-			
 		)
 	}
 }
