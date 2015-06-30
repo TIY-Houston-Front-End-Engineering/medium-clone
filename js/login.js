@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+var qs = (selector) => document.querySelector(selector)
 
 class SvgLogin extends Component{
 	constructor(props){
@@ -42,7 +43,7 @@ class SvgBack extends Component{
 	}
 }
 
-class frontOfCoin extends Component{
+class CoinFront extends Component{
 	constructor(props){
 		super(props)
 	}
@@ -60,7 +61,7 @@ class frontOfCoin extends Component{
 	}
 }
 
-class backOfCoin extends Component{
+class CoinBack extends Component{
 	constructor(props){
 		super(props)
 		// this.state = {
@@ -112,7 +113,8 @@ class backOfCoin extends Component{
 	}
 
 	render(){
-		return(<div className="backOfCoin">
+		return(
+			<div className="backOfCoin">
 				<SvgBack />
 				<div className="login">
 					<h4>Login</h4>
@@ -152,8 +154,8 @@ export class LoginView extends Component{
 	render(){
 		return(
 			<div className="rotationContainer">
-				<frontOfCoin />
-				<backOfCoin />
+				<CoinFront />
+				<CoinBack />
 			</div>
 		)
 	}
