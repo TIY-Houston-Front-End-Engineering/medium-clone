@@ -57,7 +57,7 @@ class NewStory extends Component {
 	_publish(e){
 		var title = React.findDOMNode(this.refs.title).innerText
 		this.props.newBlogPostModel.set('title', title)
-		this.props.newBlogPostModel.set('username', Parse.User.current())
+		this.props.newBlogPostModel.set('username', Parse.User.current().toJSON().username)
 		var imgSrc = React.findDOMNode(this.refs.imgsrc).innerHTML
 		this.props.newBlogPostModel.set('src', imgSrc)
 		console.log('publishing !!!!	')
@@ -113,6 +113,7 @@ class ProfileView extends Component {
 		e.preventDefault()
 		var title = React.findDOMNode(this.refs.newTitle)
 		this.setState({title: title.value})
+
 		var model = new PostStory({title: this.state.title})
 		this.setState({workingModel : model})
 		this.props.storedPosts.create(model)
@@ -122,6 +123,7 @@ class ProfileView extends Component {
 	render() { 
 		console.log(this.state.workingModel)
 		var publishedModels = this.props.storedPosts
+		console.log(publishedModels)
 
 		return (<div>
 			<Toolbar />
@@ -130,12 +132,14 @@ class ProfileView extends Component {
 				<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
 				<button onClick={(e) => this._newStory(e)}> + </button> 
 			</form>
-				<ul className="savedStory">
-					<li> <NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} /> </li>
-				</ul>
+			
+					 <NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} /> 
+				
 			<hr />
 			<h3>Your previous stories.</h3>
-			{this.props.storedPosts.map((model)=> <NewStory newBlogPostModel={publishedModels}/>)}
+			<ul>
+				
+			</ul>
 				
 		</div>)
 	}
@@ -148,19 +152,22 @@ class PostView extends Component{
 
 	render(){
 		var model = this.props.storedPost
+		var username = Parse.User.current().toJSON().firstname
+		var existingStories = this.props.storedPosts
+		console.log(username)
 		// var timestamp = model.get('timestamp')
 		return(
-			<div>
+			
 				<li className="post">
 				<h3 contenteditable ref='title'> {model.get('title')} </h3>
-				<h2 ref='author'> {`${model.get('username').toJSON().firstname} ${model.get('username').toJSON().lastname}`} </h2>
+				<h2 ref='author'> {username} </h2>
 				<img ref='src' src={model.get('src')}/>
 				<p contenteditable ref='content'>{model.get('content')}</p>
 				<p ref='tags'> {model.get('tags')} </p>
 				<p ref='timestamp'> {model.get('timestamp')} </p>
 				<button ref='recommend'> Recommend </button>
 				</li>
-			</div>
+			
 		)
 	}
 }
