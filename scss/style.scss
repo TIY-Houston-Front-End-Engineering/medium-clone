@@ -128,3 +128,336 @@ img {
 
     }
  }
+
+
+.header {
+    background-color: #649E70;
+    width: 100%;
+    height: 90px;
+    border-bottom: 3px solid white;
+    box-shadow: 0px 1px 2px #d4d4d4;
+}
+
+.subheader {
+    background-color: #649E70;
+    width: 260px;
+    height: 40px;
+    margin: auto;
+    position: relative;
+    border: 3px solid white;
+    margin-top: -3px;
+    border-top: 0px;
+    box-shadow: 0px 2px 2px #d4d4d4;
+    img {
+        width: 40px;
+        height: 35px;
+        -webkit-filter: invert(1);
+        filter: invert(0);
+        margin-left: 107px;
+    }
+}
+
+.right_box {
+    background-color: #F4F4F4;
+    width: 40%;
+    min-width: 300px;
+    height: 500px;
+    float: right;
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    border: 7px solid #f4f4f4;
+    padding: 5px;
+    transition: 2s ease-in-out;
+    -webkit-transition: 2s ease-in-out;
+    animation: fadeIn ease-in 1;
+    -webkit-animation: fadeIn ease-in 1;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-duration: 4s;
+    -webkit-animation-duration: 4s;
+    animation-name: pleaseMoveLeft;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 1s;
+}
+
+.left_box {
+    background-color: #F4F4F4;
+    width: 40%;
+    min-width: 300px;
+    height: 500px;
+    float: left;
+    border: 7px solid #f4f4f4;
+    padding: 5px;
+    position: absolute;
+    bottom: 0;
+    transition: 2s ease-in-out;
+    -webkit-transition: 2s ease-in-out;
+    animation: fadeIn ease-in 1;
+    -webkit-animation: fadeIn ease-in 1;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-duration: 4s;
+    -webkit-animation-duration: 4s;
+    animation-name: pleaseMove;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 1s;
+}
+
+#random {
+    background-color: white;
+    width: 100px;
+    height: 500px;
+}
+
+@keyframes pleaseMove {
+    0% {
+        transform: translate(0)
+    }
+    100% {
+        transform: translate(17%, -23%)
+    }
+}
+
+@keyframes pleaseMoveLeft {
+    0% {
+        transform: translate(0)
+    }
+    100% {
+        transform: translate(-17%, -23%)
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#wrapper {
+    transform: translateY(-70px);
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    transition-duration: .5s;
+}
+
+#wrapper:hover {
+    transition-duration: .5s;
+    transform: translateY(0);
+}
+
+body {
+    background-color: #F4F4F4;
+}
+
+img {
+    height: 60%;
+    width: 100%;
+}
+
+#user-img {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    float: left;
+    border-radius: 3px;
+    border: 1px solid white;
+    box-shadow: 0px 0px 2px grey;
+    margin-left: 0px;
+    margin-top: 0;
+}
+
+h6 {
+    margin: 8px;
+    margin-bottom: 2px;
+    font-size: 12px;
+    color: #649E70;
+    font-family: Arial;
+    font-weight: 400;
+}
+
+p {
+    margin-top: 0;
+    font-size: 13px;
+    font-family: Arial;
+    color: grey;
+}
+
+.left_box:hover,
+.right_box:hover {
+    border: 7px solid #d4d4d4;
+    transition-duration: .5s;
+}
+
+h4 {
+    font-family: Arial;
+    margin-bottom: 10px;
+}
+
+#description {
+    font-family: Times;
+    font-style: oblique;
+    font-size: 16px;
+    color: grey;
+    margin-bottom: 0px;
+}
+
+#read-more {
+    text-indent: 0px;
+    color: #649E70;
+    margin-top: 13px;
+    font-size: 15px;
+}
+
+button,
+input,
+#header-user-img {
+    float: right;
+    margin-top: 20px;
+}
+
+.logo {
+    float: left;
+    margin-top: 10px;
+    margin-left: 3%;
+    font-size: 35px;
+    font-weight: bolder;
+    text-shadow: 1px 1px 0px #515151;
+    color: white;
+    text-shadow: 1px 2px 1px #6B6B6B;
+}
+
+#header-user-img {
+    width: 37px;
+    height: 37px;
+    margin-right: 3%;
+    border: 1px solid #d4d4d4;
+    border-radius: 8px;
+    box-shadow: 0px 0px 2px #515151;
+}
+
+input {
+    width: 175px;
+    height: 34px;
+    padding-left: 35px;
+    margin-right: 11px;
+    border: 1px solid #d4d4d4;
+    border-radius: 8px;
+    font-family: Arial;
+    font-size: 16px;
+    box-shadow: 0px 0px 2px #515151;
+}
+
+#search-icon {
+    width: 30px;
+    height: 31px;
+    border: 0;
+    background-color: white;
+    margin-right: -34px;
+    margin-top: 23px;
+    img {
+        -webkit-filter: invert(65%);
+    }
+}
+
+#button-right {
+    float: right;
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid #d4d4d4;
+    color: #A8A8A8;
+    margin-right: 8px;
+    border-radius: 8px;
+    height: 38px;
+    font-family: Arial;
+    font-size: 15px;
+    box-shadow: 0px 0px 2px #515151;
+}
+
+.floating-logo {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    position: fixed;
+    background-color: #649E70;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: rotate(45deg);
+    border: 3px solid white;
+    box-shadow: 0px 0px 4px #d4d4d4;
+    p {
+        margin-top: 0;
+        font-size: 13px;
+        color: grey;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(-45deg);
+        margin-left: 24px;
+        font-family: Times New Roman;
+        color: white;
+        font-size: 40px;
+        text-shadow: 1px 2px 1px #6B6B6B;
+    }
+}
+
+.profile-img img {
+      margin-top: 87px;
+    width: 95%;
+  height: 500px;
+  margin-left: 2.5%;
+  float: left;
+}
+
+.prof-user-img {
+    background-image: url(https://d262ilb51hltx0.cloudfront.net/fit/c/960/960/1*utURnpBmYQy4PEGhSK05ow.jpeg);
+    background-size: cover;
+    background-position: center;
+    width: 100px;
+    height: 100px;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-top: -55px;
+    border: 2px solid white;
+    box-shadow: 0px 0px 6px #A0A0A0;
+    margin-top: 550px;
+}
+
+.user-info {
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin: auto;
+    margin-top: 680px;
+}
+
+#user-name {
+    text-align: center;
+    font-size: 47px;
+    margin-bottom: 15px;
+    color: black;
+    font-weight: bolder;
+}
+
+#bio {
+    text-align: center;
+    color: grey;
+    font-size: 17px;
+}
+
+
+form {
+
+}
