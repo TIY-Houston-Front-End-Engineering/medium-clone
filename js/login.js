@@ -77,7 +77,7 @@ class CoinBack extends Component{
 		var signup = user.signUp()
 		signup.then(()=> {
 			alert("Welcome to Milieu")
-			window.location.hash = '/profile'
+			window.location.hash = 'profile'
 		})
 		signup.fail(() => {
 			alert('Sign Up failed')
@@ -91,7 +91,7 @@ class CoinBack extends Component{
 
 		var login = Parse.User.logIn(username, password, {
 			success: (login) => {
-				window.location.hash = '/profile'
+				window.location.hash = 'profile'
 			},
 			error: (login) => {
 				this.setState({error: this.state.error + 1})
