@@ -23,6 +23,7 @@ var qs = (selector) => document.querySelector(selector)
 
 const stories = new PostStoryList()
 
+
 var ParseRouter = Parse.Router.extend({
 	routes: {
 		'home':'home',
@@ -45,7 +46,6 @@ var ParseRouter = Parse.Router.extend({
 			return
 		}
 		stories.fetch()
-		// React.render(<frontOfCoin />, qs('.container'))
 		React.render(<PostListView storedPosts={stories} />, qs('.container'))
 	},
 
