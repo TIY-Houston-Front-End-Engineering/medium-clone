@@ -34,8 +34,10 @@ class SvgBack extends Component{
 class CoinFront extends Component{
 	constructor(props){
 		super(props)
+		console.log('showfront constructor')
 	}
 	render(){
+		console.log('showfront')
 		return(
 			<div className="frontOfCoin">
 				<div>
@@ -101,6 +103,7 @@ class CoinBack extends Component{
 	}
 
 	render(){
+		console.log('showback')
 		return(
 			<div className="backOfCoin">
 				<SvgBack {...this.props} />

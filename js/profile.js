@@ -44,6 +44,11 @@ class NewStory extends Component {
 		var model = this.props.newBlogPostModel
         model && model.on('change', (e) => { this.rerender() } )
     }
+    componentDidUnMount() {
+    	console.log('unmount')
+    	var model = this.props.newBlogPostModel
+    	model.on('change', (e) => {this.rerender()})
+    }
 
 	_publish(e){
 		var currentUser = Parse.User.current().toJSON()
@@ -59,19 +64,24 @@ class NewStory extends Component {
        	this.props.newBlogPostModel.set('tags', keywords.value)
 
        	this.props.newBlogPostModel.save().then(()=> { 
-
-       		this.setState({newPost : null})
+       		this.props.newBlogPostModel.fetch()
+       		var story = React.findDOMNode(this.refs.story)
+       		// story.innerText = ''
+       	
 
        	})
 	}
 
 	render(){
+		console.log(this)
+		debugger
 		if(!this.props.newBlogPostModel){
 		console.log(1)
 			return (<span>blank</span>)
 		} else{
 		console.log(2)
-			return (<div>
+			return (<div className ="EnterStory" ref='story'>
+				<form>
 				<h3  ref="title" contentEditable>{this.props.title}</h3>
 				<label for = 'src'> Share a picture with your story. </label>
 				<input type = 'url' name='src' ref='imgsrc' placeholder='Image Url'/> 
@@ -81,6 +91,7 @@ class NewStory extends Component {
 				<label for='isPrivate'> Make Story Private </label>
 				<input type = 'checkbox' name='isPrivate' ref='isPrivate'/>
 				<button onClick={(e) => this._publish(e)}> Publish </button>
+				</form>
 			</div>
 			)
 		}
@@ -114,7 +125,7 @@ export class ProfileView extends Component {
 
 		if (this.state.title){
 			var model = new PostStory({title: this.state.title})
-			this.setState({workingModel : model})
+			this.setState({workingModel: model})
 			this.props.storedPosts.create(model)
 			title.value = ''
 		}
@@ -123,6 +134,7 @@ export class ProfileView extends Component {
 
 	render() { 
 		console.log('make model next')
+		console.log(this.state)
 		var postedStories = this.props.storedPosts
 		return (<div>
 			<Toolbar />
