@@ -130,7 +130,7 @@ class ProfileView extends Component {
 			<form onSubmit={(e) => this._newStory(e)}> 
 				<label for = 'title'> Write your Title. </label>
 				<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
-				<button onClick={(e) => this._newStory(e)}> + </button> 
+				<button> + </button> 
 			</form>
 				<NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} />
 			<hr />
