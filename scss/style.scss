@@ -207,7 +207,7 @@ img {
     position: absolute;
     top:0;
     left:0;
-    transform: rotateY(180deg) translateZ(0);
+    transform: rotateY(180deg) translateZ(1px);
     > div{
         width: 100%;
         position: absolute;
@@ -497,7 +497,7 @@ h4 {
     font-size: 15px;
 }
 
-button,
+header button,
 #search-input,
 #header-user-img {
     float: right;
