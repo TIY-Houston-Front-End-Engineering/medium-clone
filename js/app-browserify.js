@@ -26,30 +26,30 @@ class Toolbar extends Component{
 	constructor(props){
 		super(props)
 	}
-// _blockSubmit(e) {
-// 	e.preventDefault()
 
-// }
 
-_logOut (e) {
-	e.preventDefault()
-	Parse.User.logOut()
-	window.location.hash = '#login'
-}
+	_logOut (e) {
+		e.preventDefault()
+		Parse.User.logOut()
+		window.location.hash = '#login'
+	}
 	
 
 	render(){
-		return(<div className="toolbar">
+		return(<div id="wrapper">
+        <div className="header">
+            <div className="logo">Milieu</div>
+            <form >
+            <button id="button-right" onClick={(e) => this._logOut(e) }> Logout </button>
+            <button id="button-right">Write a story</button>
+            <input id="search-input" type="text" ref="searchMilieu" placeholder="Search Milieu" />
+            <button id="search-icon"><img src="./images/magnifying47.png"/></button>
+			</form>
+        </div>
+        <div className="subheader"><img src="./images/expand38.png"/></div>
 			<div>
 				<svgIcon />
-				<p>Milieu</p>
 			</div>
-			
-			<form >
-				<input type="text" ref="searchMilieu" placeholder="Search for a story." />
-			<button> Avatar </button>
-			<button onClick={(e) => this._logOut(e) }> Logout </button>
-			</form>
 		</div>)
 	}
 }
@@ -136,24 +136,27 @@ class ProfileView extends Component {
 
 	render() { 
 		console.log(this.state.workingModel)
-
 		var postedStories = this.props.storedPosts
 		console.log(postedStories)
 		console.log(postedStories.map((model) => model.toJSON()))
 		return (<div>
 			<Toolbar />
+
+			<div id="new-story">
 			<form onSubmit={(e) => this._newStory(e)}> 
-				<label for = 'title'> Write your Title. </label>
-				<input type='text' name='title' ref='newTitle' placeholder='New Story'/>
-				<button onClick={(e) => this._newStory(e)}> + </button> 
+				<label id="new-story-label" for = 'title'> Write your Title </label>
+				<input id="new-story-title" type='text' name='title' ref='newTitle' placeholder='New Story'/>
+				<button id="post-new-story"> + </button>
 			</form>
+
+			</div>
 				<NewStory newBlogPostModel={this.state.workingModel} title={this.state.title} />
-			<hr />
-			<h3>Your previous stories.</h3>
+
+			<h3 id="story-title">Your Previous Stories</h3>
+             <hr />
 			<ul>
 				{postedStories.map((model) => <PostView existingStories={model} />)}
 			</ul>	
-
 		</div>)
 	}
 }
@@ -171,15 +174,24 @@ class PostView extends Component{
 		console.log(user)
 		// var timestamp = model.get('timestamp')
 		return (
+			<div className="left_box">
 			<li className="post">
-				<h3 contenteditable ref='title'> {model.get('title')} </h3>
-				<h6 ref = 'user'> {model.get('author')} </h6>
-				<img ref='src' src={model.get('src')}/>
-				<p contenteditable ref='content'>{model.get('content')}</p>
+				<img id="user-img" src="http://www.darelicious.com/theme/Darelicious/img/placeholder-avatar.png"/>
+				<p id="user-name" ref = 'user'> {model.get('author')} </p>
+				<p id="time-stamp">1 day ago</p>
+			    <p ref='timestamp'> {model.get('timestamp')} </p>
+			    <button id="like" ref='recommend'><img src="./images/like80.png"/></button>
+			    <img id="story-img" src="http://ingridwu.dmmdmcfatter.com/wp-content/uploads/2015/01/placeholder.png"/>
+				<div id="story-img"><img ref='src' src={model.get('src')}/></div>
+				<h4 id="title" contenteditable ref='title'> {model.get('title')} </h4>
+				<p id="description" contenteditable ref='content'>{model.get('content')}</p>
+				<p id="read-more">Continue reading</p>
 				<p ref='tags'> {model.get('tags')} </p>
-				<p ref='timestamp'> {model.get('timestamp')} </p>
-				<button ref='recommend'> Recommend </button>
+				
 			</li>
+			<div className="floating-logo"><p>M</p></div>
+			</div>
+			
 		)
 	}
 }
@@ -232,7 +244,6 @@ var ParseRouter = Parse.Router.extend({
 			return
 		}
 		stories.fetch()
-		// React.render(<frontOfCoin />, qs('.container'))
 		React.render(<PostListView storedPosts={stories} />, qs('.container'))
 	},
 
